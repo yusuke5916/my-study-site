@@ -1,1 +1,1 @@
-# my-study-site
+# こんにちは、GitHubです！
