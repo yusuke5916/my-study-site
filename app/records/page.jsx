@@ -7,13 +7,11 @@ const STORAGE_KEY = 'shikaku-navi-records';
 export default function RecordsPage() {
   const [records, setRecords] = useState({});
 
-  // 成績データを localStorage から取得
   useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) setRecords(JSON.parse(saved));
   }, []);
 
-  // 成績リセット関数
   const resetRecords = () => {
     localStorage.removeItem(STORAGE_KEY);
     setRecords({});
@@ -27,7 +25,7 @@ export default function RecordsPage() {
         <p>記録はまだありません。</p>
       ) : (
         <ul>
-          {Object.keys(records).map(key => (
+          {Object.keys(records).map((key) => (
             <li key={key}>
               {key} : {records[key] === 0 ? '不正解' : '正解'}
             </li>
@@ -35,7 +33,6 @@ export default function RecordsPage() {
         </ul>
       )}
 
-      {/* 成績リセットボタン */}
       <div style={{ marginTop: "20px" }}>
         <button
           onClick={resetRecords}
@@ -47,7 +44,7 @@ export default function RecordsPage() {
             borderRadius: "0.7rem",
             fontWeight: 700,
             cursor: "pointer",
-            transition: "0.2s"
+            transition: "0.2s",
           }}
         >
           成績をリセット
