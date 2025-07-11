@@ -1,21 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import React from 'react';  // Reactのインポートを追加
 
-export default function CategoryPage({ params }) {
-  // 1. paramsがPromiseの場合にReact.use()でunwrap
-  let unwrappedParams = params;
-
-  if (typeof params.then === 'function') {
-    unwrappedParams = React.use(params);  // paramsをunwrap
-  }
-
-  const { genre, year } = unwrappedParams;
+export default function CategoryPage({ params }: { params: { genre: string } }) {
+  const { genre } = params;
 
   // 各ジャンルの選択肢
-  const categories = {
+  const categories: { [key: string]: string } = {
     "1hosou": "1級舗装過去問",
     "2hosou": "2級舗装過去問",
     "1doboku": "1級土木過去問",
@@ -25,11 +16,9 @@ export default function CategoryPage({ params }) {
     "shindan": "舗装診断士過去問",
   };
 
-  // 試験形式
   const examTypes = ["general", "application"];
 
-  // 試験形式に対応する年
-  const yearsByGenre = {
+  const yearsByGenre: { [key: string]: string[] } = {
     "1hosou": ["2025", "2024", "2023"],
     "1doboku": ["2024", "2023", "2022"],
     "1kenchiku": ["2024", "2023", "2022"],
@@ -42,7 +31,6 @@ export default function CategoryPage({ params }) {
   const years = yearsByGenre[genre] || [];
   const genreName = categories[genre] || genre;
 
-  // ローディング中は表示しないように修正
   if (!years.length) {
     return (
       <div style={{ color: "red", textAlign: "center", marginTop: 60 }}>
@@ -64,11 +52,8 @@ export default function CategoryPage({ params }) {
       background: "linear-gradient(120deg, #0a0f29 0%, #283e51 100%)",
       color: "#f5f8fc",
     }}>
-      {/* サイトタイトル */}
-      <div style={{
-        marginBottom: "2.4rem",
-        textAlign: "center",
-      }}>
+      {/* タイトル */}
+      <div style={{ marginBottom: "2.4rem", textAlign: "center" }}>
         <h1 style={{
           fontSize: "2.8rem",
           fontWeight: 900,
@@ -91,7 +76,7 @@ export default function CategoryPage({ params }) {
         </p>
       </div>
 
-      {/* 年度選択ボタン */}
+      {/* 年度と試験形式の選択 */}
       <div style={{
         display: "grid",
         gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))",
@@ -104,8 +89,6 @@ export default function CategoryPage({ params }) {
         {years.map(year => (
           <div key={year} style={{ textAlign: "center" }}>
             <h2>{year}年度</h2>
-
-            {/* 試験形式のボタン */}
             {examTypes.map(exam => (
               <Link
                 key={exam}
@@ -144,7 +127,7 @@ export default function CategoryPage({ params }) {
         ))}
       </div>
 
-      {/* サイトの説明やお知らせなど追加したい場合ここに！ */}
+      {/* フッター文言 */}
       <div style={{
         marginTop: "2.5rem",
         fontSize: "1.02rem",
